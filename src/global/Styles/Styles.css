@@ -708,3 +708,20 @@ body{
     /* ===========X===About Us Page Styleing===X============== */
 
 /* ===============X===User Side Front End===X=========== */
+
+/* ====================Admin Side================ */
+        /* ================All Appointment================== */
+            .admin_heading{
+                text-align: center;
+            }
+            .admin_heading h3{
+                font-weight: 600;
+                color: var(--color);
+            }
+            .admin_heading p{
+                font-weight: 600;
+                text-transform: uppercase;
+                color: var(--color5);
+            }
+        /* =============X===All Appointment===X=============== */
+/* ==================X==Admin Side==X============== */

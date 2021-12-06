@@ -8,7 +8,7 @@ function SubBanner() {
             <Row className="Banner">
                 <Col>
                     <h2>Every Hospital has moved online, why not you?</h2>
-                    <Link to="/"><Button>Hospital Join Here</Button></Link>
+                    <Link to="/registerHospital"><Button>Hospital Join Here</Button></Link>
                 </Col>
             </Row>
         </Container>

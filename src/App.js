@@ -12,6 +12,15 @@ import Profile from './user/screens/Profile'
 import Error from './user/screens/Error'
 import NavigationBar from './user/components/NavigationBar'
 import Footer from './user/components/Footer'
+import NavigationBarAdmin from './admin/components/NavigationBarAdmin'
+import Registration from './admin/screens/Registration'
+import LoginHospital from './admin/screens/LoginHospital'
+import AllAppointment from './admin/screens/AllAppointment'
+import AllHospital from './admin/screens/AllHospital'
+import AllUsers from './admin/screens/AllUser'
+import HospitalProfile from './admin/screens/HospitalProfile'
+import UpdateHospitalDetaile from './admin/screens/AddHospital'
+import Dashboard from './admin/screens/Dashboard'
 
 function App() {
   return (
@@ -56,6 +65,46 @@ function App() {
            <Profile/>
            <Footer/>
         </Route>
+        <Route exact path="/registerHospital">
+            <NavigationBarAdmin path="/registerHospital"/>
+            <Registration/>
+            <Footer/>
+        </Route>
+        <Route exact path="/loginhospital">
+            <NavigationBarAdmin path="/loginhospital"/>
+            <LoginHospital/>
+            <Footer/>
+        </Route>
+        <Route exact path="/allapointments">
+            <NavigationBarAdmin path="/allapointments"/>
+            <AllAppointment/>
+            <Footer/>
+        </Route>
+        <Route exact path="/hospitalsall">
+            <NavigationBarAdmin path="/hospitalsall"/>
+            <AllHospital/>
+            <Footer/>
+        </Route>
+        <Route exact path="/users">
+            <NavigationBarAdmin path="/users"/>
+            <AllUsers/>
+            <Footer/>
+         </Route>
+         <Route exact path="/hospitalprofile/:id">
+            <NavigationBarAdmin path="/hospitalprofile"/>
+            <HospitalProfile/>
+            <Footer/>
+         </Route>
+         <Route exact path="/updatehospitaldetailes">
+            <NavigationBarAdmin path="/updatehospitaldetailes"/>
+            <UpdateHospitalDetaile/>
+            <Footer/>
+         </Route>
+         <Route exact path="/dashboard">
+            <NavigationBarAdmin path="/dashboard"/>
+            <Dashboard/>
+            <Footer/>
+         </Route>
         <Route>
             <Error/>
         </Route>

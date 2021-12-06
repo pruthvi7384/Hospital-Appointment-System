@@ -1,12 +1,9 @@
 import React from 'react'
-import { useParams } from 'react-router-dom';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
+import { Col, Container, Row, Button } from 'react-bootstrap';
 import AllHospital from '../../global/API/AllHospital';
-import Apporitment from './HospitalComponents/Apporitment';
-import Feedback from './HospitalComponents/Feedback';
-import SubNavigationBar from './HospitalComponents/SubNavigation';
 
-function HospitalInfo() {
+function HospitalProfile() {
     // ===========Get Id From URL==========
     const {id} = useParams();
     // ==========Set All Hospitals Fron Database=======
@@ -17,15 +14,15 @@ function HospitalInfo() {
     }); 
     return (
         <>
-        <Container>
-            <Row className="mt-4">
-                <SubNavigationBar id={hospital_info.id} name={hospital_info.name}/>
-            </Row>
-        </Container>
-        <Container className="hospital_page">
+        <Container className="hospital_page mt-4">
             <Row className="hospital_heading">
                 <h3>Hospital <span> {hospital_info.name}</span></h3>
                 <p>Hospital <span> {hospital_info.name} </span> Information</p>
+            </Row>
+            <Row>
+                <Col xl={3}>
+                    <Link to="/updatehospitaldetailes"><Button className="text-light" variant="info"><i className='fas fa-pen'></i></Button></Link>
+                </Col>
             </Row>
             <Row className="hospital_info">
                 <Col xl={6}>
@@ -121,18 +118,8 @@ function HospitalInfo() {
                 </Col>
             </Row>
         </Container>
-        <Container className="hospital_btns mt-3">
-            <Row className="justify-content-center align-items-center">
-                <Col xl={4} className="text-center mt-2" >
-                   <Apporitment id={hospital_info.id} title="Book Appointment" subTitle="Book Appointment"/>
-                </Col>
-                <Col xl={4} className="text-center mt-2">
-                    <Feedback/>
-                </Col>
-            </Row>
-        </Container>
         </>
     )
 }
 
-export default HospitalInfo
+export default HospitalProfile

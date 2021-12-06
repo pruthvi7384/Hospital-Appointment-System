@@ -1,52 +1,53 @@
 import React , { useState } from 'react'
 import { Button, Col, Form, Modal, Row, FloatingLabel } from 'react-bootstrap';
 
-function Apporitment({id}) {
+function Apporitment({id, title, subTitle}) {
     console.log(id)
     const [modalShow, setModalShow] = useState(false);
-    const [quetion,setQuetion] = useState({
+    const [appointment,setAppointment] = useState({
         name:'',
         email:'',
         mobileno:'',
         address:'',
         date:'',
-        time:''
+        time:'',
+        status:'Panding'
     });
     const QUECTION = [
         {
             name:'name',
-            value:quetion.name,
+            value:appointment.name,
             type:'text',
             text:'Enter Your Full Name'
         },
         {
             name:'email',
-            value:quetion.email,
+            value:appointment.email,
             type:'email',
             text:'Enter Your Email'
         },
         {
             name:'mobileno',
-            value:quetion.mobileno,
+            value:appointment.mobileno,
             type:'mobileno',
             text:'Enter Your Mobile Number'
         },
         {
             name:'address',
-            value:quetion.address,
+            value:appointment.address,
             type:'address',
             text:'Enter Your Address'
         },
         {
             name:'date',
-            value:quetion.date,
-            type:'text',
+            value:appointment.date,
+            type:'date',
             text:'Enter Appointment Date'
         },
         {
             name:'time',
-            value:quetion.time,
-            type:'text',
+            value:appointment.time,
+            type:'time',
             text:'Enter Appointment Time'
         }
     ]
@@ -54,7 +55,7 @@ function Apporitment({id}) {
     const inputHandler = (e)=>{
         name = e.target.name;
         value= e.target.value;
-        setQuetion({...quetion, [name]:value});
+        setAppointment({...appointment, [name]:value});
     }
 
     const sendAppointment = (e)=>{
@@ -63,7 +64,8 @@ function Apporitment({id}) {
     }
     return (
         <>
-        <Button className="add_feedback"  onClick={() => setModalShow(true)}>Book Apporitment</Button>
+        <Button style={{ backgroundColor: '#008aff',
+        fontWeight:'500'}} className="add_feedback"  onClick={() => setModalShow(true)}>{title}</Button>
         <Modal
             show={modalShow}
             size="lg"
@@ -72,7 +74,7 @@ function Apporitment({id}) {
         >
             <Modal.Header closeButton onClick={() => setModalShow(false)}>
                 <Modal.Title style={{color:'#008aff', fontWeight:700}} id="contained-modal-title-vcenter">
-                    Book Apporitment
+                    {subTitle}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -109,11 +111,33 @@ function Apporitment({id}) {
                         </Row>
                         ))
                     }
+                    <Row>
+                        <Col>
+                            {
+                                subTitle === 'Edit Appointment'
+                                ?
+                                    <Form.Select onChange={
+                                        (e)=>{
+                                            setAppointment({...appointment,status:e.target.value})
+
+                                        }
+                                       
+                                    }>
+                                        <option value="Panding">Panding</option>
+                                        <option value="Cancel">Cancel</option>
+                                        <option value="Approve">Approve</option>
+                                        <option value="Done">Done</option>
+                                    </Form.Select>
+                                :
+                                ''
+                            }
+                        </Col>
+                    </Row>
                 </Form>
             </Modal.Body>
             <Modal.Footer style={{justifyContent: 'center'}}>
                 <Button style={{ backgroundColor: '#008aff',
-                    fontWeight:'500'}} onClick={sendAppointment}>Book Appointment</Button>
+                    fontWeight:'500'}} onClick={sendAppointment}>{subTitle}</Button>
             </Modal.Footer>
         </Modal>
         </>

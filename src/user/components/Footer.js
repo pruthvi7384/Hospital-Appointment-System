@@ -9,7 +9,8 @@ function Footer() {
         { to: '/contact', text: 'Contact' },
       ]
       const HELP = [
-        { to: '/apportmentBook', text: 'Book Appointment.' },
+        { to: '/allhospital', text: 'Book Appointment.' },
+        { to: '/registerHospital', text: 'Join As A Hospital.' },
         { to: '/about', text: 'Lets Clear Your Douts.' },
         { to: '/', text: 'What Pepole Says ?' },
         { to: '/about', text: 'Why Important This Platform?' },
