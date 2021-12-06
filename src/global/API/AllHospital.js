@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 function AllHospital() {
-    const [hospitals, setHospital] = useState([
+    const [hospitals] = useState([
         {
             id:'1',
             name:'Sahyadri Super Speciality Hospital',
