@@ -55,7 +55,7 @@ function Contact() {
         },
         { 
             icon:'far fa-envelope',
-            text:'example@hospitalappointment.com'
+            text:'example@info.com'
         }
     ]
     return (

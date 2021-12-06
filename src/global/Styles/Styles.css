@@ -375,36 +375,7 @@ body{
                 margin-right:5px;
             }
         /* =================Developer================ */
-        /* ==============Footer Responsive============= */
-            @media(max-width:1024px){
-                .Footer{
-                    padding:15px;
-                }
-                .Footer .Footer_Menu p, .Footer .Footer_Help p{
-                    font-size: 16px;
-                }
-                .Footer .Footer_Menu ul{
-                    display:block;
-                }
-                .Footer .Footer_Menu ul li a{
-                    font-size: 12px;
-                }
-                .Footer .Footer_Help ul li a{
-                    font-size: 12px;
-                }
-                /* =================Developer================ */
-                    .Developer{
-                        margin:0px 0px !important;
-                    }
-                    .Developer p{
-                        font-size: 10px;
-                    }
-                    .Developer a{
-                        font-size: 10px;
-                    }
-                /* =================Developer================ */
-            }
-        /* ===========X===Footer Responsive===X========== */
+
     /* ===============X==Footer Section Styleing==X============= */
 
     /* ============Search Bar================ */
@@ -445,16 +416,15 @@ body{
     /* ============All Hospital Display=========== */
         .All_Hospital #Hospital_heading{
             text-align: center;
-            font-family: 'Poppins', sans-serif;
         }
         .All_Hospital #Hospital_heading h3{
             font-weight: 600;
-            color: #008aff;
+            color: var(--color);
         }
         .All_Hospital #Hospital_heading p{
             font-weight: 600;
             text-transform: uppercase;
-            color: #928f88;
+            color: var(--color5);
         }
         .All_Hospital .card {
             width: 100%;
@@ -464,16 +434,14 @@ body{
             box-shadow:  0 4px 16px rgb(0 0 0 / 10%);
         }
         .All_Hospital .card-title {
-            font-family: 'Poppins', sans-serif;
             font-weight: 600;
             text-transform: uppercase;
-            color:#111111;
+            color:var(--color3);
         }
         .All_Hospital .card-text {
-            font-family: 'Poppins', sans-serif;
             font-weight: 600;
             font-weight: 400;
-            color:#444444;
+            color:var(--color4);
             text-align: justify;
         }
         .All_Hospital .Footer__Card{
@@ -495,11 +463,11 @@ body{
         }
         .All_Hospital .Footer__Card ul li a i{
             font-size: 16px;
-            color: #008aff;
+            color: var(--color);
             margin-right: 5px;
         }
         .All_Hospital .Footer__Card ul li a .btn{
-            background-color: #008aff;
+            background-color: var(--color);
             font-weight:500;
             font-size:14px;
             margin-top:5px;
@@ -539,7 +507,6 @@ body{
         }
         .hospital_page .hospital_info p{
             margin-top:20px;
-            font-family: 'Poppins', sans-serif;
             font-weight: 400;
             color:var(--color4);
             text-align: justify;
@@ -548,7 +515,6 @@ body{
             justify-content: center;
         }
         .hospital_page .hospital_synptoms h4{
-            font-family: 'Poppins', sans-serif;
             text-align: center;
             font-weight: 600;
             color: #444349;
@@ -560,7 +526,7 @@ body{
             margin-bottom: 8px;
             font-family: 'Poppins', sans-serif;
             font-weight: 400;
-            color:#444444;
+            color:var(--color4);
             cursor: pointer;
             text-align: justify;
         }
@@ -569,7 +535,6 @@ body{
         }
         .hospital_btns .btn{
             background-color:var(--color);
-            font-family: 'Poppins', sans-serif;
             font-weight:500;
         }
         /* ==============Sub Navigation Bar============ */
@@ -579,42 +544,19 @@ body{
             }
             .hospital_sub_nav li a{
                 margin: 0px 5px;
-                color: #333333 !important;
-                font-family: 'Poppins', sans-serif;
+                color: var(--color3) !important;
                 font-weight:600;
                 font-size: 14px;
                 transition: all 0.3s ease-in-out;
             }
             .hospital_sub_nav li a:hover{
-                color: #008aff !important;
+                color: var(--color) !important;
             }
             .hospital_sub_nav li .active{
-                color: #008aff !important;
+                color: var(--color) !important;
             }
         /* ===========X===Sub Navigation Bar===X========= */
 
-        /* ============Responsive=============== */
-            @media(max-width:768px){
-                .hospital_page .fas{
-                    margin-right: 10px;
-                }
-                .hospital_page .hospital_heading h3{
-                    font-size:20px;
-                }
-                .hospital_page .hospital_heading p{
-                    font-size:14px;
-                }
-                .hospital_page .hospital_info p,.hospital_page .hospital_synptoms p{
-                    font-size:12px;
-                }
-                .hospital_All .card-text{
-                    font-size:12px;
-                }
-                .hospital_page .hospital_synptoms h4{
-                    font-size:16px;
-                }
-            }
-        /* ============Responsive=============== */
     /* ================X===Disease Page Styling===X=========== */
 
     /* ====================Error Page Styling========================= */
@@ -651,19 +593,18 @@ body{
         }
         .profile_page .profile_heding{
             text-align: center;
-            font-family: 'Poppins', sans-serif;
         }
         .profile_page .profile_heding h3{
-            color: #333333;
+            color: var(--color3);
             font-weight: 600;
         }
         .profile_page .profile_heding h3 span{
-            color: #008aff;
+            color: var(--color);
         }
         .profile_page .profile_heding p{
             font-weight: 600;
             text-transform: uppercase;
-            color: #928f88;
+            color: var(--color5);
         }
 
         /* ==========Profile============ */
@@ -678,7 +619,7 @@ body{
                 font-size:18px;
             }
             .profile_page .profile ul li span{
-                color: #444444;
+                color: var(--color4);
                 margin-left:5px;
             }
         /* ========X==Profile==X========== */
@@ -703,41 +644,25 @@ body{
                 text-transform: uppercase;
                 color: var(--color5);
             }
-        /* ===============Responsive========= */
-            @media(max-width:768px){
-                .profile_page .profile_heding h3, .profile_page .appointment_profile h3{
-                    font-size:20px;
-                }
-                .profile_page .profile_heding p, .profile_page .appointment_profile p{
-                    font-size:14px;
-                }
-                .profile_page .profile ul li{
-                    font-size:12px;
-                }
-            }
-        /* ===============Responsive========= */
-
     /* =======X==Profile Page Styling==X=========== */
 
     /* ==============About Us Page Styleing================= */
         .about_us #about_us_heading{
             text-align: center;
-            font-family: 'Poppins', sans-serif;
         }
         .about_us #about_us_heading h3{
             font-weight: 600;
-            color: #008aff;
+            color: var(--color);
         }
         .about_us #about_us_heading p{
             font-weight: 600;
             text-transform: uppercase;
-            color: #928f88;
+            color: var(--color5);
         }
         .about_us .about_mission h5 {
             margin-top:10px;
-            font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            color: #333333;
+            color: var(--color4);
         }
         .about_us .about_team .team_image{
             height:200px;
@@ -747,32 +672,27 @@ body{
         }
         .about_us .about_mission h5, .about_us .about_team h5{
             text-align: center;
-            font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            color: #333333;
+            color: var(--color3);
         }
         .about_us .about_mission p{
-            font-family: 'Poppins', sans-serif;
             font-weight: 400;
-            color:#444444;
+            color:var(--color4);
             cursor: pointer;
             text-align: justify;
         }
         .about_us .about_team .about_team_member h5{
             margin-top:10px;
-            font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            color: #008aff;
+            color: var(--color);
         }
         .about_us .about_team .about_team_member h6{
-            font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            color: #111111;
+            color: var(--color2);
         }
         .about_us .about_team .about_team_member p{
-            font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            color: #333333;
+            color: var(--color3);
         }
         .about_us .about_team .about_team_member ul{
             display: flex;
@@ -785,28 +705,6 @@ body{
         .about_us .about_team .about_team_member ul li i{
             font-size:22px;
         }
-        /* ===============Responsive========= */
-            @media(max-width:768px){
-                .about_us #about_us_heading h3{
-                    font-size:20px;
-                }
-                .about_us #about_us_heading p{
-                    font-size:14px;
-                }
-                .about_us .about_mission h5, .about_us .about_team h5{
-                font-size: 14px;
-                }
-                .about_us .about_mission p{
-                    font-size: 12px;
-                }
-                .about_us .about_team .about_team_member h6{
-                    font-size: 12px;
-                }
-                .about_us .about_team .about_team_member p{
-                    font-size: 12px;
-                }
-            }
-        /* ===============Responsive========= */
     /* ===========X===About Us Page Styleing===X============== */
 
 /* ===============X===User Side Front End===X=========== */
