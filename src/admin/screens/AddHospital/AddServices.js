@@ -1,7 +1,7 @@
 import React , { useState } from 'react'
 import { Button, Col, FloatingLabel, Form, Modal, Row } from 'react-bootstrap';
 
-function AddServices() {
+function AddServices({text,type}) {
     const [modalShow, setModalShow] = useState(false);
     const [feedback,setFeedback] = useState({
         name:''
@@ -29,7 +29,7 @@ function AddServices() {
         <>
         <Button style={{ backgroundColor: '#008aff',
         fontFamily: `Poppins, sans-serif`,
-        fontWeight:'500'}} onClick={() => setModalShow(true)}>Add Service</Button>
+        fontWeight:'500'}} onClick={() => setModalShow(true)}>{text}</Button>
         <Modal
             show={modalShow}
             size="lg"
@@ -38,7 +38,7 @@ function AddServices() {
         >
             <Modal.Header closeButton onClick={() => setModalShow(false)}>
                 <Modal.Title id="contained-modal-title-vcenter" style={{color:'#008aff', fontWeight:700}}>
-                    Add Hospital Service
+                    {type}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -66,7 +66,7 @@ function AddServices() {
             <Modal.Footer style={{justifyContent: 'center'}}>
                 <Button style={{ backgroundColor: '#008aff',
                 fontFamily: `Poppins, sans-serif`,
-                fontWeight:'500'}} onClick={sendFeedback}>Add Service</Button>
+                fontWeight:'500'}} onClick={sendFeedback}>{type}</Button>
             </Modal.Footer>
         </Modal>
         </>
