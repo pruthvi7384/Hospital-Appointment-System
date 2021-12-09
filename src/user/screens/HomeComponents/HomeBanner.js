@@ -8,7 +8,7 @@ function HomeBanner() {
             <div className="home_hero_section">
                     <h1><span>Stay Home </span> Stay Safe !</h1>
                     <h4>we care about your health.</h4>
-                    <Link to="/allhospital"><Button>Book Online Apporitment</Button></Link>
+                    <Link to="/allhospital"><Button>Book Online Appointment</Button></Link>
             </div>
         </Container>
     )

@@ -27,6 +27,7 @@ function AllAppointment() {
                 console.log(e.message)
                 setAppointmentLoading(false)
             }
+            setAppointmentLoading(false)
         }
         return () => {
             getAppointment()
@@ -74,6 +75,8 @@ function AllAppointment() {
                         </thead>
                     <tbody>
                         {
+                            appointments.length !==0
+                            ?
                             appointments.map((appointment)=>(
                                 <tr key={appointment.id}>
                                     <th>{appointment.id}</th>
@@ -94,6 +97,8 @@ function AllAppointment() {
                                     </td>
                                 </tr>
                             ))
+                            :
+                            <tr style={{fontWeight:'bold'}} className="text-danger">No Appointment Found !</tr>
                         }
                        
                     </tbody>

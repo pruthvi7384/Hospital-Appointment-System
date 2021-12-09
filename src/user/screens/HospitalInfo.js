@@ -134,7 +134,7 @@ function HospitalInfo() {
                 <h4><span>{specificHospital.dataHospital.name}</span> Hospital <span> Specialities </span></h4>
                 <Col xl={8} className="mt-2">
                     {
-                        specificHospital.dataHospital.specialities === [0] ?
+                        specificHospital.dataHospital.specialities.length!==0 ?
                         
                         specificHospital.dataHospital.specialities.map((specialitie,index) => (
                             <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {specialitie}</p>
@@ -148,7 +148,7 @@ function HospitalInfo() {
                 <h4><span>{specificHospital.dataHospital.name}</span> Hospital <span> Facilities </span></h4>
                 <Col xl={8} className="mt-2">
                     {
-                        specificHospital.dataHospital.facilities === [0] ?
+                        specificHospital.dataHospital.facilities.length!==0 ?
                         specificHospital.dataHospital.facilities.map((facility,index)=> (
                             <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {facility}</p>
                         ))
@@ -161,7 +161,7 @@ function HospitalInfo() {
                 <h4><span>{specificHospital.dataHospital.name}</span> Hospital <span> Services </span></h4>
                 <Col xl={8} className="mt-2">
                     {
-                        specificHospital.dataHospital.srvices === [0] ?
+                        specificHospital.dataHospital.services.length!==0 ?
                         specificHospital.dataHospital.services.map((service,index)=> (
                             <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {service}</p>
                         ))

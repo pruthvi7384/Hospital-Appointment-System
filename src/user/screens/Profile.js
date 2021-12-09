@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 function Profile() {
     const { userProfile } = useProfile()
     const [appointments, setAppointments] = useState([])
+    console.log(appointments)
     const [appointmentloading, setAppointmentLoading] = useState(false)
 
     useEffect(() => {
@@ -24,10 +25,7 @@ function Profile() {
             }
             setAppointmentLoading(false)
         }
-        return () => {
-            getAppointment()
-            setAppointments([])
-        }
+        getAppointment()
     },[userProfile.user.email])
     if(appointmentloading){
         return(
@@ -41,7 +39,7 @@ function Profile() {
     return (
         <Container className="profile_page mt-4">
             <Row className="profile_heding"> 
-                <h3 ><span>Pruthviraj Rajput</span> Profile</h3>
+                <h3 ><span>{userProfile.user.name}</span> Profile</h3>
                 <p>Your Profile And Privious Appointment History Here</p>
             </Row>
             <Row className="profile mt-2">
@@ -72,6 +70,8 @@ function Profile() {
                         </thead>
                     <tbody>
                         {
+                            appointments.length !== 0
+                            ?
                             appointments.map(appointment => (
                                 <tr key={appointment.id}>
                                     <th>{appointment.id}</th>
@@ -84,6 +84,8 @@ function Profile() {
                                     </td>
                                 </tr>
                             ))
+                            :
+                            <tr style={{fontWeight:'bold'}} className="text-danger">No Appointment Found !</tr>
                         }
                     </tbody>
                 </Table>

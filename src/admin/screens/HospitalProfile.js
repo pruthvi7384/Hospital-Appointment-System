@@ -101,7 +101,7 @@ function HospitalProfile() {
                     <h4><span>{profile.hospital.name}</span> Hospital <span> Specialities </span></h4>
                     <Col xl={8} className="mt-2">
                         {
-                            profile.hospital.specialities === [0] ?
+                            profile.hospital.specialities.length!==0 ?
                             profile.hospital.specialities.map((specialitie,index) => (
                                 <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {specialitie}</p>
                             ))
@@ -114,7 +114,7 @@ function HospitalProfile() {
                     <h4><span>{profile.hospital.name}</span> Hospital <span> Facilities </span></h4>
                     <Col xl={8} className="mt-2">
                         {
-                            profile.hospital.facilities === [0] ?
+                            profile.hospital.facilities.length !==0 ?
                             profile.hospital.facilities.map((facility,index)=> (
                                 <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {facility}</p>
                             ))
@@ -127,7 +127,7 @@ function HospitalProfile() {
                     <h4><span>{profile.hospital.name}</span> Hospital <span> Services </span></h4>
                     <Col xl={8} className="mt-2">
                         {
-                            profile.hospital.srvices === [0] ?
+                            profile.hospital.services.length!==0 ?
                             profile.hospital.services.map((service,index)=> (
                                 <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {service}</p>
                             ))

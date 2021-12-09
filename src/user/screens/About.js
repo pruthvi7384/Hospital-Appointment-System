@@ -1,22 +1,29 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-
-import PRUTHVI from '../../assets/pruthvi.png';
-
 import IMAGE from '../../assets/onboardbg.jpg';
 import Feedback from './HomeComponents/Feedback'
 
 function About() {
     const TEAM = [
         { 
-            image:PRUTHVI,
-            name:"Rajput Pruthviraj",
-            branch:"Computer Science & Engineering",
-            class:"BE",
-            section:"B",
-            rollno:"37",
-            github:"https://github.com/pruthvi7384",
-            linkdin:"https://www.linkedin.com/in/pruthviraj-rajput-131ba61b4/",
+            image:'',
+            name:"Kunal Patil",
+            branch:"Computer Science & Engineering IS1",
+            class:"TY CSE",
+            section:"A",
+            rollno:"2183117",
+            github:"",
+            linkdin:"",
+        },
+        { 
+            image:'',
+            name:"Akash Dhormale",
+            branch:"Computer Science & Engineering IS1",
+            class:"TY CSE",
+            section:"A",
+            rollno:"2183275",
+            github:"",
+            linkdin:"",
         }
     ]
    

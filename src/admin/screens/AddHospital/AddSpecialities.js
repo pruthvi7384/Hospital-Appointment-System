@@ -44,6 +44,7 @@ function AddSpecialities({text,type,id,specality}) {
                           setFeedback({
                               name:''
                           })   
+                          setisloading(false)
                     }catch(e){
                          console.log(e.message)
                     }
