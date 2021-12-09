@@ -1,13 +1,23 @@
+import { signInWithEmailAndPassword } from '@firebase/auth';
 import React,{ useState } from 'react'
-import { Col, Container, Form, Row, Button, Alert } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Col, Container, Form, Row, Button, Modal } from 'react-bootstrap'
+import { Link, Redirect } from 'react-router-dom'
+import { useProfile } from '../../global/context/Profile.Context';
+import { auth } from '../../global/firebase/firebaseConfig';
 
 function Login() {
     const [show, setShow] = useState(false);
+    const [adminloading, setAdminLoading] = useState(false)
+    const [error, setError] = useState('')
     const [user,setUser] = useState({
         email:'',
         password:'',
     });
+     // ========Cheack User Login Or Not============
+     const {userProfile,isloading} = useProfile()
+     if(userProfile && !isloading){
+         return <Redirect to="/"/>
+     }
     const SIGNUP = [
         {
             name:'email',
@@ -28,8 +38,24 @@ function Login() {
         value= e.target.value;
         setUser({...user, [name]:value});
     }
-    const signin = (e)=>{
+    const signin = async(e)=>{
         e.preventDefault();
+        if(!user.email || !user.password){
+            setError("Oh Know ! Your Not Entered Both Filled Properly, Please Enter Both Fileds Properly.")
+            setShow(true)
+        }else{
+            setAdminLoading(true)
+            try{
+                await signInWithEmailAndPassword(auth, user.email, user.password);
+                setAdminLoading(false)
+                setError("Your Login Sussesfuly")
+                setShow(true)
+            }catch(e){
+                setAdminLoading(false)
+                setError(e.message)
+                setShow(true)
+            }
+        }
     }
     return (
         <Container className="mt-4 account_form">
@@ -38,15 +64,11 @@ function Login() {
                 <p>Login your self</p>
             </Row>
             <Form className="account_form_body mt-2">
-                { 
-                show ?
-                    <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                    <Alert.Heading>Oh Know !</Alert.Heading>
-                    <p>Your Entered Email Id is Not Exist. Please <Link to="signup">SignUp Now</Link></p>
-                    </Alert>
-                    :
-                    ''
-                }
+                <Modal show={show} onHide={()=>setShow(false)}>
+                    <Modal.Header  closeButton>
+                        <Modal.Title className="text-bold">{error} !</Modal.Title>
+                    </Modal.Header>
+                </Modal>
                 {SIGNUP.map(item =>(
                     <Row key={item.text}>
                         <Col xl={6}>
@@ -67,7 +89,7 @@ function Login() {
                 <Row>
                     <Col xl={6} className="account_button text-center mt-2">
                         <p>Forgot Password? <Link to="/signup">Here.</Link></p>
-                        <Button type="submit" onClick={signin}>Login Now</Button>
+                        <Button type="submit" onClick={signin}>{adminloading ? 'Loading..' : 'Login Now'}</Button>
                         <p>You are Not Signup,Please <Link to="/signup">signup Here.</Link></p>
                     </Col>
                 </Row>

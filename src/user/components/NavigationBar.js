@@ -1,22 +1,41 @@
+import { signOut } from '@firebase/auth';
 import React from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
+import { useProfile } from '../../global/context/Profile.Context';
+import { auth } from '../../global/firebase/firebaseConfig';
 
 function NavigationBar({path}) {
   const History = useHistory();
   const BrowserPath = History.location.pathname;
-  const LINKS = [
-    { to: '/', text: 'Home' },
-    { to: '/about', text: 'About' },
-    { to: '/allhospital', text: 'Hospitals' },
-    { to: '/contact', text: 'Contact' },
-    { to: '/signup', text: 'SignUp' },
-    { to: '/login', text: 'LogIn' },
-  ]
-  const DROPDOWN = [
-    { to: '/profile', text: 'Profile' },
-    { to: '/logout', text: 'LogOut' },
-  ]
+  const {userProfile,setuserProfile} = useProfile()
+  const LINKS = 
+    userProfile ?
+      [
+        { to: '/', text: 'Home' },
+        { to: '/about', text: 'About' },
+        { to: '/allhospital', text: 'Hospitals' },
+        { to: '/contact', text: 'Contact' },
+      ]
+    :
+    [
+      { to: '/', text: 'Home' },
+      { to: '/about', text: 'About' },
+      { to: '/allhospital', text: 'Hospitals' },
+      { to: '/contact', text: 'Contact' },
+      { to: '/signup', text: 'SignUp' },
+      { to: '/login', text: 'LogIn' },
+    ]
+     // =================Hospital Logout Here===========
+      const logout = ()=>{
+        signOut(auth).then(() => {
+          alert('SingOut Successfuly')
+          History.push('/')
+          setuserProfile('')
+        }).catch((error) => {
+          console.log(error.message)
+        });
+      }
     return (
         <Navbar sticky="top" collapseOnSelect expand="lg">
             <Container>
@@ -29,13 +48,16 @@ function NavigationBar({path}) {
                    ))
                   }
                 </Nav>
-                <NavDropdown title="Pruthviraj Rajput" id="basic-nav-dropdown">
-                  {
-                    DROPDOWN.map(menu =>(
-                        <Link key={menu.text} className={menu.to===BrowserPath ? 'nav-active nav-link' : 'nav-link'} to={menu.to}>{menu.text}</Link>
-                    ))
-                  }
-                </NavDropdown>
+                {
+                  userProfile ?
+                  <NavDropdown title={userProfile.user.name} id="basic-nav-dropdown">
+                    <Link className={`/profile`===BrowserPath ? 'nav-active nav-link' : 'nav-link'} to={`/profile`}>Profile</Link>
+                    <li onClick={logout} className={'/hospitallogout'===BrowserPath ? 'nav-active nav-link' : 'nav-link'} >LogOut</li>
+                  </NavDropdown>
+                  :
+                  ""
+                }
+               
               </Navbar.Collapse>
           </Container>
       </Navbar>

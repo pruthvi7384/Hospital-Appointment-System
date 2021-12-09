@@ -1,8 +1,17 @@
 import React from 'react'
 import { Container, Row, Col, Table, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { useProfile } from '../../global/context/Profile.Context';
+import { Redirect } from 'react-router';
 
 function AllHospital() {
+    const {profile,isloading} = useProfile()
+    if(!profile && !isloading){
+        return <Redirect to="/registerHospital"/>
+    }
+    if(profile.hospital.staus === '0'){
+        return <Redirect to={`/hospitalprofile/${profile.id}`} />
+    }
     const deleteAppointment = () => {
 
     }

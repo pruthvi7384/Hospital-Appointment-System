@@ -1,0 +1,182 @@
+<Container>
+            <Row className="mt-4">
+                <SubNavigationBar id={hospital_info.id} name={hospital_info.name}/>
+            </Row>
+        </Container>
+        <Container className="hospital_page mt-4">
+            <Row className="hospital_heading">
+                <h3>Hospital <span> {profile.hospital.name}</span></h3>
+                <p>Hospital <span> {profile.hospital.name} </span> Information</p>
+            </Row>
+            <Row className="hospital_info">
+                <Col xl={6}>
+                    <img className="hospital_image" src={!profile.hospital.image === '' ? `${profile.hospital.image}` : `https://intersectiq.com/assets/images/blogs/6/cover.jpg`} alt="" />
+                </Col>
+                <Col xl={6}>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{profile.hospital.description}</p>
+                </Col>
+            </Row>
+            <Row className="hospital_synptoms mt-4">
+                <h4><span>{profile.hospital.name}</span> Hospital <span> Detailes </span></h4>
+                <Col xl={8} className="mt-2">
+                    <p><span><i className="fas fa-clock"></i></span> {profile.hospital.opining === '' ? '00 : 00 AM' : `${profile.hospital.opining} AM` } -  {profile.hospital.ending === '' ? '00 : 00 AM' : `${profile.hospital.ending} PM ` }</p>
+                </Col>
+                <Col xl={8} className="mt-2">
+                    {
+                        profile.hospital.location === ''
+                        ?
+                        <p className="text-danger"><span><i className="fas fa-map-marker-alt"></i></span> Location Detailes Not Mentioned !</p>
+                        :
+                        <p><span><i className="fas fa-map-marker-alt"></i></span> {profile.hospital.location}</p>
+                    }
+                </Col>
+                <Col  xl={8} className="mt-2">
+                    {
+                        profile.hospital.grievances !== ''
+                        ?
+                        <p><span><i className="fas fa-user-plus"></i></span> {profile.hospital.grievances}</p>
+                        :
+                        <p className="text-danger"><span><i className="fas fa-user-plus"></i></span> Grievances Personal Detailes Not Mentions !</p>
+                    }
+                </Col>
+                <Col  xl={8} className="mt-2">
+                    {
+                        profile.hospital.contact_no !== ''
+                        ?
+                        <p><span><i className="fas fa-phone-alt"></i></span> {profile.hospital.contact_no}</p>
+                        :
+                        <p className="text-danger"><span><i className="fas fa-phone-alt"></i></span> Contact Number Not Mentions !</p>
+                    }
+                </Col>
+                <Col  xl={8} className="mt-2">
+                    {
+                        profile.hospital.email_id !== ''
+                        ?
+                        <p><span><i className="far fa-envelope"></i></span> {profile.hospital.email_id}</p>
+                        :
+                        <p className="text-danger"><span><i className="far fa-envelope"></i></span> Email Id Not Mentions !</p>
+                    }
+                </Col>
+                <Col  xl={8} className="mt-2">
+                    {
+                        profile.hospital.fax_no !== ''
+                        ?
+                        <p><span><i className="fas fa-fax"></i></span> {profile.hospital.fax_no}</p>
+                        :
+                        <p className="text-danger"><span><i className="fas fa-fax"></i></span> Fax Number Not Mentions !</p>
+                    }
+                </Col>
+                <Col  xl={8} className="mt-2">
+                    {
+                        profile.hospital.reviews
+                        ?
+                        <p><span><i className="fas fa-comments"></i></span> {profile.hospital.reviews.length}</p>
+                        :
+                        <p className="text-danger"><span><i className="fas fa-comments"></i></span> 00 !</p>
+                    }
+                </Col>
+                <Col  xl={8} className="mt-2">
+                    <p><span><i className="fas fa-calendar-check"></i></span> <TimeAgo
+                        datetime={profile.hospital.join_Date? new Date(profile.hospital.join_Date) : new Date()}
+                    /></p>
+                </Col>
+            </Row>
+            <Row className="hospital_synptoms mt-2">
+                <h4><span>{profile.hospital.name}</span> Hospital <span> Specialities </span></h4>
+                <Col xl={8} className="mt-2">
+                    {
+                        profile.hospital.specialities !== '' ?
+                        profile.hospital.specialities.map((specialitie,index) => (
+                            <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {specialitie}</p>
+                        ))
+                        :
+                        <p className="text-danger text-center" style={{fontWeight:'600'}}>Specialities Detailes Not Mentions !</p>
+                    }
+                </Col>
+            </Row>
+            <Row className="hospital_synptoms mt-2">
+                <h4><span>{profile.hospital.name}</span> Hospital <span> Facilities </span></h4>
+                <Col xl={8} className="mt-2">
+                    {
+                        profile.hospital.facilities !== '' ?
+                        profile.hospital.facilities.map((facility,index)=> (
+                            <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {facility}</p>
+                        ))
+                        :
+                        <p className="text-danger text-center" style={{fontWeight:'600'}}>Facilities Detailes Not Mentions !</p>
+                    }
+                </Col>
+            </Row>
+            <Row className="hospital_synptoms mt-2">
+                <h4><span>{profile.hospital.name}</span> Hospital <span> Services </span></h4>
+                <Col xl={8} className="mt-2">
+                    {
+                        profile.hospital.srvices !== '' ?
+                        profile.hospital.services.map((service,index)=> (
+                            <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {service}</p>
+                        ))
+                        :
+                        <p className="text-danger text-center" style={{fontWeight:'600'}}>Services Detailes Not Mentions !</p>
+                    }
+                </Col>
+            </Row>
+        </Container>
+        <Container className="hospital_btns mt-3">
+            <Row className="justify-content-center align-items-center">
+                <Col xl={4} className="text-center mt-2" >
+                   <Apporitment id={hospital_info.id} title="Book Appointment" subTitle="Book Appointment"/>
+                </Col>
+                <Col xl={4} className="text-center mt-2">
+                    <Feedback/>
+                </Col>
+            </Row>
+        </Container>
+        {
+            id:'1',
+            name:'Sahyadri Super Speciality Hospital',
+            image:'https://sahyadrihospital.com/wp-content/uploads/2021/05/Web-Banner_DG-MOBILE.jpg',
+            location:'Plot no.30 – C, Erandwane, Deccan Gymkhana, Pune 411004, Maharashtra, India',
+            description:'Sahyadri Super Speciality Hospital, Deccan Gymkhana boasts of a Team of Medical Consultants dedicated to work exclusively within the Sahyadri Group of Hospitals who are the most sought after experts in their own fields with National & International acclaim.',
+            specialities:[
+                'Neurosurgery',
+                'Organ Transplants',
+                'Haematology',
+                'Cardilogy',
+                'Neurology',
+                'Cardiac Surgery',
+                'Orthopaedics',
+                'Oncology',
+                'Endocrinology',
+                'Gastroenterology',
+                'General Surgery',
+                'Urology'
+            ],
+            services:[
+                '24-Hour Services',
+                'Laboratory',
+                'Radiology & Diagnostics'
+            ],
+            facilities:[
+                'InPatient Rooms',
+                'Operating Theatre',
+                'Daycare surgery Unit',
+                'Endoscopy Suite',
+                'Dialysis',
+                'Cafeteria'
+            ],
+            contact_no:'+91 8806 25 25 25',
+            email_id:'feedback@sahyadrihospitals.com',
+            fax_no:'+91 20 6721 5098',
+            grievances:'Mr. Rohan Mirage',
+            reviews:[
+                {
+                    id:'0',
+                    name:'Pruthviraj Rajput',
+                    location:'Shahada, Maharastra',
+                    feedback:'Very Very Good Facilitys Provide This Hospital',
+                }
+            ],
+            join_Date: '25 March 2021',
+            opning: '09:00 PM',
+            ending: '12:00 AM'
+        }

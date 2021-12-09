@@ -1,10 +1,12 @@
+import { doc, getDoc, updateDoc } from '@firebase/firestore';
 import React , { useState } from 'react'
 import { Button, Col, FloatingLabel, Form, Modal, Row } from 'react-bootstrap';
+import { db } from '../../../global/firebase/firebaseConfig';
 
-function AddSpecialities({text,type}) {
+function AddSpecialities({text,type,id,specality}) {
     const [modalShow, setModalShow] = useState(false);
     const [feedback,setFeedback] = useState({
-        name:''
+        name:specality ? specality : ''
     })
     const SPESHALITES = [
         {
@@ -21,8 +23,34 @@ function AddSpecialities({text,type}) {
         setFeedback({...feedback, [name]:value});
     }
 
-    const sendFeedback = (e)=>{
+    const sendFeedback = async(e)=>{
         e.preventDefault();
+        const updateHospital = doc(db, "Hospital", id);
+        try{
+                const docSnap = await getDoc(updateHospital);
+                if (docSnap.exists()) {
+                    const data = docSnap.data().specialities
+                    try {
+                        await updateDoc(updateHospital, {
+                            specialities:[
+                                    ...data,
+                                    feedback.name
+                            ]
+                          });
+                          alert('Your Hospital Specialities Added Successfuly')   
+                          setFeedback({
+                              name:''
+                          })   
+                    }catch(e){
+                         console.log(e.message)
+                    }
+                } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }catch(e){
+            console.log(e.message)
+        }
         setModalShow(false);
     }
     return (

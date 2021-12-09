@@ -1,11 +1,17 @@
 import React from 'react'
 import { Container, Row, Col, Table, Button } from 'react-bootstrap'
+import { Redirect } from 'react-router'
+import { useProfile } from '../../global/context/Profile.Context'
+
 import Apporitment from '../../user/screens/HospitalComponents/Apporitment'
 
 function AllAppointment() {
-    const deleteAppointment = () => {
 
+    const {profile,isloading} = useProfile()
+    if(!profile && !isloading){
+        return <Redirect to="/registerHospital"/>
     }
+    
     return (
        <Container className="mt-4">
             <Row className="admin_heading">
@@ -14,7 +20,7 @@ function AllAppointment() {
             </Row>
             <Row>
                 <Col>
-                    <Apporitment title="Add Appointment" subTitle="Add Appointment"/>
+                    <Apporitment id={profile.id} title="Add Appointment" subTitle="Add Appointment"/>
                </Col>
             </Row>
             <Row className="mt-3">
@@ -33,19 +39,24 @@ function AllAppointment() {
                             </tr>
                         </thead>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>
-                                <Apporitment title={<i className='fas fa-pen'></i>} subTitle="Edit Appointment"/> {' '}
-                                <Button variant="danger" onClick={deleteAppointment}><i className="fas fa-trash-alt"></i></Button>
-                            </td>
-                        </tr>
+                        {
+                            profile.hospital.appointments.map((appointment, index)=>(
+                                <tr key={index}>
+                                    <th>{index}</th>
+                                    <td>{appointment.name}</td>
+                                    <td>{appointment.email}</td>
+                                    <td>{appointment.mobileno}</td>
+                                    <td>{appointment.date}</td>
+                                    <td>{appointment.time}</td>
+                                    <td>{appointment.status}</td>
+                                    <td>
+                                        <Apporitment index={index} id={profile.id} title={<i className='fas fa-pen'></i>} subTitle="Edit Appointment"/> {' '}
+                                        <Button variant="danger" ><i className="fas fa-trash-alt"></i></Button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                       
                     </tbody>
                 </Table>
                 </Col>

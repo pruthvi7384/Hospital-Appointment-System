@@ -1,7 +1,10 @@
 import React from 'react'
 import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import { useProfile } from '../../global/context/Profile.Context';
 
 function Profile() {
+    const { userProfile } = useProfile()
+
     const APPOINTMENTS = [
         {
             id:"1",
@@ -29,9 +32,9 @@ function Profile() {
             <Row className="profile mt-2">
                <Col xl="4">
                     <ul>
-                        <li>User Id : <span>pruthvi1235rajput</span></li>
-                        <li>Name : <span>Pruthviraj Rajput</span></li>
-                        <li>Email : <span>pruthviraj@gmail.com</span></li>
+                        <li>User Id : <span>{userProfile.id}</span></li>
+                        <li>Name : <span>{userProfile.user.name}</span></li>
+                        <li>Email : <span>{userProfile.user.email}</span></li>
                         <li>Join Date : <span>30 Nov 2021</span></li>
                         <li>Address : <span>425444, Shahada, Nandurbar</span></li>
                     </ul>

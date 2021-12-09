@@ -1,16 +1,26 @@
+import { createUserWithEmailAndPassword } from '@firebase/auth';
+import { addDoc, collection, serverTimestamp } from '@firebase/firestore';
 import React, { useState } from 'react'
-import { Col, Container, Form, Row, Button, Alert } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Col, Container, Form, Row, Button, Modal } from 'react-bootstrap'
+import { Link, Redirect } from 'react-router-dom'
+import { useProfile } from '../../global/context/Profile.Context';
+import { auth, db } from '../../global/firebase/firebaseConfig';
 
 function SignUp() {
     const [show, setShow] = useState(false);
+    const [error, setError] = useState('')
+    const [adminloading, setAdminLoading] = useState(false)
     const [user,setUser] = useState({
         name:'',
         email:'',
         contact:'',
-        password:'',
-        cpassword:''
+        password:''
     });
+    // ========Cheack User Login Or Not============
+    const {userProfile,isloading} = useProfile()
+    if(userProfile && !isloading){
+        return <Redirect to="/"/>
+    }
     const SIGNUP = [
         {
             name:'name',
@@ -35,12 +45,6 @@ function SignUp() {
             value:user.password,
             type:'password',
             text:'Enter Your Password'
-        },
-        {
-            name:'cpassword',
-            value:user.cpassword,
-            type:'password',
-            text:'Enter Your Password Again'
         }
     ]
     let name, value;
@@ -49,8 +53,36 @@ function SignUp() {
         value= e.target.value;
         setUser({...user, [name]:value});
     }
-    const signup = (e)=>{
+    const signup = async(e)=>{
         e.preventDefault();
+        if(!user.email || !user.password || !user.name){
+            setError("May Be You Are Not Entered Email Id , Password And Your Name Please Enter Mentioned Filed Properly")
+            setShow(true)
+        }else{
+            try{
+                setAdminLoading(true)
+                const userRegister = await createUserWithEmailAndPassword(auth,user.email,user.password)
+                try {
+                     await addDoc(collection(db, "Users"), {
+                        ...user,
+                        authUid:userRegister.user.uid,
+                        join_Date:serverTimestamp(),
+                    });
+                    setAdminLoading(false)
+                    setError("Your Registration Succesfuly")
+                    setUser('')
+                    setShow(true)
+                  } catch (e) {
+                    setAdminLoading(false)
+                    setError(e.message)
+                    setShow(true)
+                  }
+            }catch(e){
+                setAdminLoading(false)
+                setError("Your Are Allrady Register Please Try LogIn !.")
+                setShow(true)
+            }
+        }
     }
     return (
         <Container className="mt-4 account_form">
@@ -59,15 +91,12 @@ function SignUp() {
                 <p>Register your self</p>
             </Row>
             <Form className="account_form_body mt-2">
-                { 
-                show ?
-                    <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                    <Alert.Heading>Oh Know !</Alert.Heading>
-                    <p>Your Entered Email Id Is Alrady Exist Please, Try To Enter Different Email Id.</p>
-                    </Alert>
-                    :
-                    ''
-                }
+                <Modal show={show} onHide={()=>setShow(false)}>
+                        <Modal.Header  closeButton>
+                            <Modal.Title className="text-bold">Oh Know !</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>{error}</Modal.Body>
+                </Modal>
                 {SIGNUP.map(item =>(
                     <Row key={item.text}>
                         <Col xl={6}>
@@ -87,7 +116,7 @@ function SignUp() {
                 }
                 <Row>
                     <Col xl={6} className="account_button text-center mt-2">
-                        <Button type="submit" onClick={signup}>SignUp Now</Button>
+                        <Button type="submit" onClick={signup}>{adminloading ? 'Loading...' : 'SignUp Now' }</Button>
                         <p>You are Alrady Signup,Please <Link to="/login">Login Here.</Link></p>
                     </Col>
                 </Row>

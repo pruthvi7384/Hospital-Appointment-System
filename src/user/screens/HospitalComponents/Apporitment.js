@@ -1,9 +1,13 @@
-import React , { useState } from 'react'
+import React , { useState, useEffect } from 'react'
+import { doc, getDoc, updateDoc } from '@firebase/firestore';
 import { Button, Col, Form, Modal, Row, FloatingLabel } from 'react-bootstrap';
+import { db } from '../../../global/firebase/firebaseConfig';
 
-function Apporitment({id, title, subTitle}) {
-    console.log(id)
+function Apporitment({id, title, subTitle, index}) {
+    // =========X===Get Hospital Id===X==============
+    console.log('indexAppointment',index)
     const [modalShow, setModalShow] = useState(false);
+    const [sendappointment, setsendappointment] = useState(false)
     const [appointment,setAppointment] = useState({
         name:'',
         email:'',
@@ -57,9 +61,74 @@ function Apporitment({id, title, subTitle}) {
         value= e.target.value;
         setAppointment({...appointment, [name]:value});
     }
+    // =============Get Data For Index==========
+   
+    useEffect(() => {
+        if(index){
+            const updateAppointmentRef = doc(db, "Hospital", id);
+            const updateAppointment = async()=>{
+                try{
+                    const docSnap = await getDoc(updateAppointmentRef);
+                    if (docSnap.exists()) {
+                        const data = docSnap.data().appointments[index]
+                        setAppointment({
+                            name:data.name ? data.name : '',
+                            email:data.name ? data.email : '',
+                            mobileno:data.mobileno ? data.mobileno : '',
+                            address:data.address ? data.address : '',
+                            date:data.date ? data.date : '',
+                            time:data.time ? data.time : '',
+                            status:'Panding'
+                        })
+                    } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+                }catch(e){
+                    console.log(e.message)
+                }
 
-    const sendAppointment = (e)=>{
+            }
+            updateAppointment()
+        }
+    }, [index,id])
+    const sendAppointment = async(e)=>{
         e.preventDefault();
+        const updateHospital = doc(db, "Hospital", id);
+            try{
+                setsendappointment(true)
+                    const docSnap = await getDoc(updateHospital);
+                    if (docSnap.exists()) {
+                        const data = docSnap.data().appointments
+                        try {
+                            await updateDoc(updateHospital, {
+                                appointments:[
+                                        ...data,
+                                        appointment,
+                                ]
+                              });
+                              alert('Thank You ! For Online Appoimtment, Your Online Hospital Appointment Booked Sussessfuly !')   
+                              setAppointment({
+                                name:'',
+                                email:'',
+                                mobileno:'',
+                                address:'',
+                                date:'',
+                                time:'',
+                                status:'Panding'
+                              })
+                        }catch(e){
+                             console.log(e.message)
+                        }
+                    } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+                setsendappointment(false)
+            }catch(e){
+                console.log(e.message)
+                setsendappointment(false)
+            }
         setModalShow(false);
     }
     return (
@@ -137,7 +206,7 @@ function Apporitment({id, title, subTitle}) {
             </Modal.Body>
             <Modal.Footer style={{justifyContent: 'center'}}>
                 <Button style={{ backgroundColor: '#008aff',
-                    fontWeight:'500'}} onClick={sendAppointment}>{subTitle}</Button>
+                    fontWeight:'500'}} onClick={sendAppointment}>{sendappointment ? 'Booking...' : `${subTitle}`}</Button>
             </Modal.Footer>
         </Modal>
         </>

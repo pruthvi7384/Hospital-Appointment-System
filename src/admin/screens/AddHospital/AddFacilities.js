@@ -1,10 +1,14 @@
 import React , { useState } from 'react'
+import { doc, getDoc, updateDoc } from '@firebase/firestore';
 import { Button, Col, FloatingLabel, Form, Modal, Row } from 'react-bootstrap';
+import { Redirect } from 'react-router';
+import { useProfile } from '../../../global/context/Profile.Context';
+import { db } from '../../../global/firebase/firebaseConfig';
 
-function AddFasilites({text,type}) {
+function AddFasilites({text,type,facility,id}) {
     const [modalShow, setModalShow] = useState(false);
     const [feedback,setFeedback] = useState({
-        name:''
+        name:facility ? facility : ''
     })
     const FACILITIES = [
         {
@@ -21,10 +25,41 @@ function AddFasilites({text,type}) {
         setFeedback({...feedback, [name]:value});
     }
 
-    const sendFeedback = (e)=>{
+    const sendFeedback = async(e)=>{
         e.preventDefault();
+        const updateHospital = doc(db, "Hospital", id);
+        try{
+                const docSnap = await getDoc(updateHospital);
+                if (docSnap.exists()) {
+                    const data = docSnap.data().facilities
+                    try {
+                        await updateDoc(updateHospital, {
+                            facilities:[
+                                    ...data,
+                                    feedback.name
+                            ]
+                          });
+                          alert('Your Hospital Facilitie Added Successfuly')   
+                          setFeedback({
+                              name:''
+                          })   
+                    }catch(e){
+                         console.log(e.message)
+                    }
+                } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }catch(e){
+            console.log(e.message)
+        }
         setModalShow(false);
     }
+     // ========Cheack User Login Or Not============
+     const {profile,isloading} = useProfile()
+     if(!profile && isloading){
+         return <Redirect to="/registerHospital"/>
+     }
     return (
         <>
         <Button style={{ backgroundColor: '#008aff',

@@ -21,94 +21,100 @@ import AllUsers from './admin/screens/AllUser'
 import HospitalProfile from './admin/screens/HospitalProfile'
 import UpdateHospitalDetaile from './admin/screens/AddHospital'
 import Dashboard from './admin/screens/Dashboard'
+import { ProfileProvider } from './global/context/Profile.Context'
+
 
 function App() {
   return (
-    <Switch>
-        <Route exact path="/">
-           <NavigationBar path="/"/>
-           <Home/>
-           <Footer/>
-        </Route>
-        <Route exact path="/about">
-           <NavigationBar path="/about"/>
-           <About/>
-           <Footer/>
-        </Route>
-        <Route exact path="/allhospital">
-           <NavigationBar path="/allhospital"/>
-           <Hospital/>
-           <Footer/>
-        </Route>
-        <Route exact path="/allhospital/:id">
-           <NavigationBar path="/allhospital"/>
-           <HospitalInfo/>
-           <Footer/>
-        </Route>
-        <Route exact path="/contact">
-           <NavigationBar path="/contact"/>
-           <Contact/>
-           <Footer/>
-        </Route>
-        <Route exact path="/signup">
-           <NavigationBar path="/signup"/>
-           <SignUp/>
-           <Footer/>
-        </Route>
-        <Route exact path="/login">
-           <NavigationBar path="/login"/>
-           <Login/>
-           <Footer/>
-        </Route>
-        <Route exact path="/profile">
-           <NavigationBar path="/profile"/>
-           <Profile/>
-           <Footer/>
-        </Route>
-        <Route exact path="/registerHospital">
-            <NavigationBarAdmin path="/registerHospital"/>
-            <Registration/>
-            <Footer/>
-        </Route>
-        <Route exact path="/loginhospital">
-            <NavigationBarAdmin path="/loginhospital"/>
-            <LoginHospital/>
-            <Footer/>
-        </Route>
-        <Route exact path="/allapointments">
-            <NavigationBarAdmin path="/allapointments"/>
-            <AllAppointment/>
-            <Footer/>
-        </Route>
-        <Route exact path="/hospitalsall">
-            <NavigationBarAdmin path="/hospitalsall"/>
-            <AllHospital/>
-            <Footer/>
-        </Route>
-        <Route exact path="/users">
-            <NavigationBarAdmin path="/users"/>
-            <AllUsers/>
-            <Footer/>
-         </Route>
-         <Route exact path="/hospitalprofile/:id">
-            <NavigationBarAdmin path="/hospitalprofile"/>
-            <HospitalProfile/>
-            <Footer/>
-         </Route>
-         <Route exact path="/updatehospitaldetailes">
-            <NavigationBarAdmin path="/updatehospitaldetailes"/>
-            <UpdateHospitalDetaile/>
-            <Footer/>
-         </Route>
-         <Route exact path="/dashboard">
-            <NavigationBarAdmin path="/dashboard"/>
-            <Dashboard/>
-            <Footer/>
-         </Route>
-        <Route>
-            <Error/>
-        </Route>
-    </Switch>
+      <ProfileProvider>
+         <Switch>
+            <Route exact path="/">
+               <NavigationBar path="/"/>
+               <Home/>
+               <Footer/>
+            </Route>
+            <Route exact path="/about">
+               <NavigationBar path="/about"/>
+               <About/>
+               <Footer/>
+            </Route>
+            <Route exact path="/allhospital">
+               <NavigationBar path="/allhospital"/>
+               <Hospital/>
+               <Footer/>
+            </Route>
+            <Route exact path="/allhospital/:id">
+               <NavigationBar path="/allhospital"/>
+               <HospitalInfo/>
+               <Footer/>
+            </Route>
+            <Route exact path="/contact">
+               <NavigationBar path="/contact"/>
+               <Contact/>
+               <Footer/>
+            </Route>
+            <Route exact path="/signup">
+               <NavigationBar path="/signup"/>
+               <SignUp/>
+               <Footer/>
+            </Route>
+            <Route exact path="/login">
+               <NavigationBar path="/login"/>
+               <Login/>
+               <Footer/>
+            </Route>
+            <Route exact path="/profile">
+               <NavigationBar path="/profile"/>
+               <Profile/>
+               <Footer/>
+            </Route>
+               <Route exact path="/registerHospital">
+                     <NavigationBarAdmin path="/registerHospital"/>
+                     <Registration/>
+                     <Footer/>
+               </Route>
+               <Route exact path="/loginhospital">
+                     <NavigationBarAdmin path="/loginhospital"/>
+                     <LoginHospital/>
+                     <Footer/>
+               </Route>
+               <Route exact path="/allapointments">
+                     <NavigationBarAdmin path="/allapointments"/>
+                     <AllAppointment/>
+                     <Footer/>
+               </Route>
+               <Route exact path="/hospitalsall">
+                     <NavigationBarAdmin path="/hospitalsall"/>
+                     <AllHospital/>
+                     <Footer/>
+               </Route>
+               <Route exact path="/users">
+                     <NavigationBarAdmin path="/users"/>
+                     <AllUsers/>
+                     <Footer/>
+                  </Route>
+                  <Route exact path="/hospitalprofile">
+                     <NavigationBarAdmin path="/hospitalprofile"/>
+                     <HospitalProfile/>
+                     <Footer/>
+                  </Route>
+                  <Route exact path="/updatehospitaldetailes/:id">
+                     <NavigationBarAdmin path="/updatehospitaldetailes"/>
+                     <UpdateHospitalDetaile/>
+                     <Footer/>
+                  </Route>
+                  <Route exact path="/dashboard">
+                     <NavigationBarAdmin path="/dashboard"/>
+                     <Dashboard/>
+                     <Footer/>
+                  </Route>
+                  <Route>
+                        <Error/>
+                  </Route>
+            
+         </Switch>
+      </ProfileProvider>
+    
   )
 }
 

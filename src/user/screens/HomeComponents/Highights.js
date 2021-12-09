@@ -1,17 +1,24 @@
-import React from 'react'
+
+import React,{ useEffect, useState } from 'react'
+import { collection, getDocs } from '@firebase/firestore';
 import { Container, Row, Col} from 'react-bootstrap'
+import { db } from '../../../global/firebase/firebaseConfig';
 
 function Highights() {
+    const [total,setTotal] = useState({
+        hospital:'0',
+        user:'0'
+    })
     const HIGHIGHTS= [
         { 
             icon:<i className="fas fa-hospital"></i>,
             text:"HOSPITALS",
-            number: '00',
+            number: total.hospital <=9 ? `0${total.hospital}` : total.hospital,
         },
         { 
             icon:<i className="fas fa-users"></i>,
             text:"USERS",
-            number: '00',
+            number: total.user <=9 ? `0${total.user}` : total.user,
         },
         { 
             icon:<i className="fas fa-calendar-check"></i>,
@@ -19,6 +26,14 @@ function Highights() {
             number: '00',
         }
     ]
+    useEffect(() => {
+        getDocs(collection(db,'Hospital')).then(snapshot => {
+          setTotal({...total,hospital:snapshot.size})
+        })
+        getDocs(collection(db,'Users')).then(snapshot => {
+            setTotal({...total,user:snapshot.size})
+          })
+    },[total]);
     return (
         <Container className="Services mt-4">
             <Row id="services_heading">

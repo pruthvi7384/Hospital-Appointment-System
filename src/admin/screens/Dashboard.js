@@ -1,7 +1,16 @@
 import React from 'react'
 import { Container, Row, Col} from 'react-bootstrap'
+import { Redirect } from 'react-router';
+import { useProfile } from '../../global/context/Profile.Context'
 
 function Dashboard() {
+    const {profile,isloading} = useProfile()
+    if(!profile && !isloading){
+        return <Redirect to="/registerHospital"/>
+    }
+    if(profile.hospital.staus === '0'){
+        return <Redirect to={`/allapointments`} />
+    }
     const HIGHIGHTS= [
         { 
             icon:<i className="fas fa-hospital"></i>,

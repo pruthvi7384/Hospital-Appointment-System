@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
-import { Col, Container, Form, Row, Button, Alert } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { createUserWithEmailAndPassword } from '@firebase/auth';
+import { Col, Container, Form, Row, Button, Modal } from 'react-bootstrap'
+import { Link, Redirect } from 'react-router-dom'
+import { auth, db } from '../../global/firebase/firebaseConfig';
+import { addDoc, collection, serverTimestamp } from '@firebase/firestore';
+import { useProfile } from '../../global/context/Profile.Context';
 
 function Registration() {
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false)
+    const [error, setError] = useState('')
+    const [adminloading, setAdminLoading] = useState(false)
     const [user,setUser] = useState({
         name:'',
         location:'',
@@ -12,14 +18,16 @@ function Registration() {
         contact_no:'',
         opining:'',
         ending:'',
-        password:''
+        password:'',
+        image:'',
+        staus:'0'
     });
     const SIGNUP = [
         {
             name:'name',
             value:user.name,
             type:'text',
-            text:'Enter Your Full Name'
+            text:'Enter Your Hospital Name'
         },
         {
             name:'location',
@@ -28,13 +36,19 @@ function Registration() {
             text:'Enter Your Hospital Address'
         },
         {
-            name:'email',
+            name:'description',
+            value:user.description,
+            type:'text',
+            text:'Enter Your Hospital Description'
+        },
+        {
+            name:'email_id',
             value:user.email_id,
             type:'email',
             text:'Enter Your Email'
         },
         {
-            name:'contact',
+            name:'contact_no',
             value:user.contact_no,
             type:'number',
             text:'Enter Your Hospital Contact Number'
@@ -42,7 +56,7 @@ function Registration() {
         {
             name:'opining',
             value:user.opining,
-            type:'date',
+            type:'time',
             text:'Enter Your Hospital Opping Time'
         },
         {
@@ -56,6 +70,12 @@ function Registration() {
             value:user.password,
             type:'password',
             text:'Enter Your Password'
+        },
+        {
+            name:'image',
+            value:user.image,
+            type:'text',
+            text:'Enter Your Your Hospital Image URL'
         }
     ]
     let name, value;
@@ -64,8 +84,50 @@ function Registration() {
         value= e.target.value;
         setUser({...user, [name]:value});
     }
-    const signup = (e)=>{
+     // ========Cheack User Login Or Not============
+     const {profile,isloading} = useProfile()
+     if(profile && !isloading){
+         return <Redirect to="/dashboard"/>
+     }
+    // ==========Register Hospital Functionality================
+    const registerHospital = async(e)=>{
         e.preventDefault();
+        if(!user.email_id || !user.password || !user.name){
+            setError("May Be You Are Not Entered Email Id , Password And Hospital Name Please Enter Mentioned Filed Properly")
+            setShow(true)
+        }else{
+            try{
+                setAdminLoading(true)
+                const userRegister = await createUserWithEmailAndPassword(auth,user.email_id,user.password)
+                console.log(userRegister.user.uid)
+                try {
+                     await addDoc(collection(db, "Hospital"), {
+                        ...user,
+                        authUid:userRegister.user.uid,
+                        join_Date:serverTimestamp(),
+                        fax_no:'',
+                        grievances:'',
+                        specialities:[],
+                        services:[],
+                        facilities:[],
+                        reviews:[],
+                        appointments:[]
+                    });
+                    setAdminLoading(false)
+                    setError("Your Hospital Registration Succesfuly")
+                    setUser('')
+                    setShow(true)
+                  } catch (e) {
+                    setAdminLoading(false)
+                    setError(e.message)
+                    setShow(true)
+                  }
+            }catch(e){
+                setAdminLoading(false)
+                setError("Your Hospital Allrady Ragister Please Try To Login Otherwise Contact To Site Admin.")
+                setShow(true)
+            }
+        }
     }
     return (
         <Container className="mt-4 account_form">
@@ -74,15 +136,12 @@ function Registration() {
                 <p>Register your self</p>
             </Row>
             <Form className="account_form_body mt-2">
-                { 
-                show ?
-                    <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                    <Alert.Heading>Oh Know !</Alert.Heading>
-                    <p>Your Entered Email Id Is Alrady Exist Please, Try To Enter Different Email Id.</p>
-                    </Alert>
-                    :
-                    ''
-                }
+                    <Modal show={show} onHide={()=>setShow(false)}>
+                            <Modal.Header  closeButton>
+                                <Modal.Title className="text-bold">Oh Know !</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>{error}</Modal.Body>
+                    </Modal>
                 {SIGNUP.map(item =>(
                     <Row key={item.text}>
                         <Col xl={6}>
@@ -93,6 +152,7 @@ function Registration() {
                                 value={item.value}
                                 onChange={inputHandler}
                                 placeholder="name@example.com"
+                                required
                                 />
                                 <label htmlFor="floatingInputCustom">{item.text}</label>
                             </Form.Floating>
@@ -102,8 +162,8 @@ function Registration() {
                 }
                 <Row>
                     <Col xl={6} className="account_button text-center mt-2">
-                        <Button type="submit" onClick={signup}>Register Now</Button>
-                        <p>You are Alrady Register,Please <Link to="/hospitallogin">Login Here.</Link></p>
+                        <Button type="submit" onClick={registerHospital}>{adminloading ? 'Loading...' : 'Register Now' }</Button>
+                        <p>You are Alrady Register,Please <Link to="/loginhospital">Login Here.</Link></p>
                     </Col>
                 </Row>
             </Form>
