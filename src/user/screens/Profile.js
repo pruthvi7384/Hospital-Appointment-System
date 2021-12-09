@@ -1,28 +1,43 @@
-import React from 'react'
-import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import React,{ useState, useEffect } from 'react'
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { Container, Row, Col, Table, Button, Spinner } from 'react-bootstrap';
 import { useProfile } from '../../global/context/Profile.Context';
+import { db } from '../../global/firebase/firebaseConfig';
+import { Link } from 'react-router-dom';
 
 function Profile() {
     const { userProfile } = useProfile()
+    const [appointments, setAppointments] = useState([])
+    const [appointmentloading, setAppointmentLoading] = useState(false)
 
-    const APPOINTMENTS = [
-        {
-            id:"1",
-            date: '21 May 2021',
-            time:'09:00 PM',
-            hospitalName:'Sahyadri Super Speciality Hospital',
-            address:'Plot no.30 – C, Erandwane, Deccan Gymkhana, Pune 411004, Maharashtra, India',
-            status:'Approve'
-        },
-        {
-            id:"2",
-            date: '22 May 2021',
-            time:'11:00 PM',
-            hospitalName:'Sahyadri Super Speciality Hospital',
-            address:'Plot no.30 – C, Erandwane, Deccan Gymkhana, Pune 411004, Maharashtra, India',
-            status:'Panding'
-        },
-    ]
+    useEffect(() => {
+        const getAppointment = async()=>{
+            try{
+                setAppointmentLoading(true)
+                const q = query(collection( db, "Appointments"), where("email", "==", `${userProfile.user.email}`))
+                const querySnapshot = await getDocs(q);
+                setAppointments(querySnapshot.docs.map((doc)=>({id:doc.id, data: doc.data()})));
+                setAppointmentLoading(false)
+            }catch(e){
+                console.log(e.message)
+                setAppointmentLoading(false)
+            }
+            setAppointmentLoading(false)
+        }
+        return () => {
+            getAppointment()
+            setAppointments([])
+        }
+    },[userProfile.user.email])
+    if(appointmentloading){
+        return(
+            <Container style={{height:"100vh"}}className="d-flex justify-content-center align-items-center">
+                <Row >
+                        <Spinner animation="grow" variant="info" />
+                </Row>
+            </Container>
+        )
+    }
     return (
         <Container className="profile_page mt-4">
             <Row className="profile_heding"> 
@@ -48,26 +63,24 @@ function Profile() {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Hospital Name</th>
-                                <th>Address</th>
                                 <th>Date</th>
                                 <th>Time</th>
+                                <th>Hospital Detailes</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                     <tbody>
                         {
-                            APPOINTMENTS.map(appointment => (
-                                <tr>
+                            appointments.map(appointment => (
+                                <tr key={appointment.id}>
                                     <th>{appointment.id}</th>
-                                    <td>{appointment.hospitalName}</td>
-                                    <td>{appointment.address}</td>
-                                    <td>{appointment.date}</td>
-                                    <td>{appointment.time}</td>
-                                    <td style={{fontWeight:'bold'}} className={appointment.status === 'Approve' ? 'text-success': 'text-primary'}>{appointment.status}</td>
+                                    <td>{appointment.data.date}</td>
+                                    <td>{appointment.data.time}</td>
+                                    <td><Link to={`/allhospital/${appointment.data.hospitalId}`} >Like Here...</Link></td>
+                                    <td style={{fontWeight:'bold'}} className={appointment.data.status === 'Approve' ? 'text-success': 'text-primary'}>{appointment.data.status}</td>
                                     <td>
-                                        <Button variant="danger" disabled={appointment.status==='Approve'} >Cancel</Button>
+                                        <Button variant="danger" disabled={appointment.data.status ==='Approve'} >Cancel</Button>
                                     </td>
                                 </tr>
                             ))

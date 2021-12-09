@@ -26,7 +26,7 @@ function HospitalProfile() {
                 </Row>
                 <Row className="hospital_info">
                     <Col xl={6}>
-                        <img className="hospital_image" src={!profile.hospital.image === '' ? `${profile.hospital.image}` : `https://intersectiq.com/assets/images/blogs/6/cover.jpg`} alt="" />
+                        <img className="hospital_image" src={profile.hospital.image !== '' ? `${profile.hospital.image}` : `https://intersectiq.com/assets/images/blogs/6/cover.jpg`} alt="" />
                     </Col>
                     <Col xl={6}>
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{profile.hospital.description}</p>
@@ -101,7 +101,7 @@ function HospitalProfile() {
                     <h4><span>{profile.hospital.name}</span> Hospital <span> Specialities </span></h4>
                     <Col xl={8} className="mt-2">
                         {
-                            profile.hospital.specialities !== '' ?
+                            profile.hospital.specialities === [0] ?
                             profile.hospital.specialities.map((specialitie,index) => (
                                 <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {specialitie}</p>
                             ))
@@ -114,7 +114,7 @@ function HospitalProfile() {
                     <h4><span>{profile.hospital.name}</span> Hospital <span> Facilities </span></h4>
                     <Col xl={8} className="mt-2">
                         {
-                            profile.hospital.facilities !== '' ?
+                            profile.hospital.facilities === [0] ?
                             profile.hospital.facilities.map((facility,index)=> (
                                 <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {facility}</p>
                             ))
@@ -127,7 +127,7 @@ function HospitalProfile() {
                     <h4><span>{profile.hospital.name}</span> Hospital <span> Services </span></h4>
                     <Col xl={8} className="mt-2">
                         {
-                            profile.hospital.srvices !== '' ?
+                            profile.hospital.srvices === [0] ?
                             profile.hospital.services.map((service,index)=> (
                                 <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {service}</p>
                             ))

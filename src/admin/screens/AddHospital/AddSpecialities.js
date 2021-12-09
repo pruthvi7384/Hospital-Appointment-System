@@ -5,6 +5,7 @@ import { db } from '../../../global/firebase/firebaseConfig';
 
 function AddSpecialities({text,type,id,specality}) {
     const [modalShow, setModalShow] = useState(false);
+    const [loading, setisloading] = useState(false);
     const [feedback,setFeedback] = useState({
         name:specality ? specality : ''
     })
@@ -25,8 +26,10 @@ function AddSpecialities({text,type,id,specality}) {
 
     const sendFeedback = async(e)=>{
         e.preventDefault();
+        setisloading(true)
         const updateHospital = doc(db, "Hospital", id);
         try{
+            setisloading(true)
                 const docSnap = await getDoc(updateHospital);
                 if (docSnap.exists()) {
                     const data = docSnap.data().specialities
@@ -48,9 +51,12 @@ function AddSpecialities({text,type,id,specality}) {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
             }
+            setisloading(false)
         }catch(e){
             console.log(e.message)
+            setisloading(false)
         }
+        setisloading(false)
         setModalShow(false);
     }
     return (
@@ -94,7 +100,7 @@ function AddSpecialities({text,type,id,specality}) {
             <Modal.Footer style={{justifyContent: 'center'}}>
                 <Button style={{ backgroundColor: '#008aff',
                 fontFamily: `Poppins, sans-serif`,
-                fontWeight:'500'}} onClick={sendFeedback}>{type}</Button>
+                fontWeight:'500'}} onClick={sendFeedback}>{loading ? 'Adding...' : type}</Button>
             </Modal.Footer>
         </Modal>
         </>

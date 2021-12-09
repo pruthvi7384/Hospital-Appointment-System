@@ -6,8 +6,9 @@ import { db } from '../../../global/firebase/firebaseConfig';
 
 function Highights() {
     const [total,setTotal] = useState({
-        hospital:'0',
-        user:'0'
+        hospital:'00',
+        user:'00',
+        appointments:'00',
     })
     const HIGHIGHTS= [
         { 
@@ -23,7 +24,7 @@ function Highights() {
         { 
             icon:<i className="fas fa-calendar-check"></i>,
             text:"APPOINTMENTS",
-            number: '00',
+            number: total.appointments <=9 ? `0${total.appointments}` : total.appointments,
         }
     ]
     useEffect(() => {
@@ -32,6 +33,9 @@ function Highights() {
         })
         getDocs(collection(db,'Users')).then(snapshot => {
             setTotal({...total,user:snapshot.size})
+          })
+          getDocs(collection(db,'Appointments')).then(snapshot => {
+            setTotal({...total,appointments:snapshot.size})
           })
     },[total]);
     return (

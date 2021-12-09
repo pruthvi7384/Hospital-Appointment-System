@@ -110,8 +110,7 @@ function Registration() {
                         specialities:[],
                         services:[],
                         facilities:[],
-                        reviews:[],
-                        appointments:[]
+                        reviews:[]
                     });
                     setAdminLoading(false)
                     setError("Your Hospital Registration Succesfuly")

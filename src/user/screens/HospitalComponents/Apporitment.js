@@ -1,11 +1,10 @@
-import React , { useState, useEffect } from 'react'
-import { doc, getDoc, updateDoc } from '@firebase/firestore';
+import React , { useState, useEffect} from 'react'
+import { serverTimestamp, collection, addDoc, updateDoc, doc, getDoc } from '@firebase/firestore';
 import { Button, Col, Form, Modal, Row, FloatingLabel } from 'react-bootstrap';
 import { db } from '../../../global/firebase/firebaseConfig';
 
-function Apporitment({id, title, subTitle, index}) {
+function Apporitment({id, title, subTitle, appointId}) {
     // =========X===Get Hospital Id===X==============
-    console.log('indexAppointment',index)
     const [modalShow, setModalShow] = useState(false);
     const [sendappointment, setsendappointment] = useState(false)
     const [appointment,setAppointment] = useState({
@@ -55,80 +54,106 @@ function Apporitment({id, title, subTitle, index}) {
             text:'Enter Appointment Time'
         }
     ]
+
+    // =========get Appointment Detailes==================
+        useEffect(() => {
+            if(appointId){
+                const appointmentData= async()=>{
+                    const docRef = doc(db, "Appointments", appointId);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        const data = docSnap.data()
+                        setAppointment({
+                            name: data.name ? data.name : '',
+                            email: data.email ? data.email : '',
+                            mobileno: data.mobileno ? data.mobileno : '',
+                            address: data.address ? data.address : '',
+                            date: data.date ? data.date : '',
+                            time: data.time ? data.time : '',
+                            status:data.status ? data.status : ''
+                        })
+                    } else {
+                        // doc.data() will be undefined in this case
+                        setAppointment({
+                            name:'',
+                            email:'',
+                            mobileno:'',
+                            address:'',
+                            date:'',
+                            time:'',
+                            status:'Panding'
+                        })
+                    }
+                }
+                appointmentData()
+            }else{
+                        setAppointment({
+                            name:'',
+                            email:'',
+                            mobileno:'',
+                            address:'',
+                            date:'',
+                            time:'',
+                            status:'Panding'
+                        })
+            }
+        }, [appointId])
+    // =======X==get Appointment Detailes===X===============
+
     let name, value;
     const inputHandler = (e)=>{
         name = e.target.name;
         value= e.target.value;
         setAppointment({...appointment, [name]:value});
     }
-    // =============Get Data For Index==========
-   
-    useEffect(() => {
-        if(index){
-            const updateAppointmentRef = doc(db, "Hospital", id);
-            const updateAppointment = async()=>{
-                try{
-                    const docSnap = await getDoc(updateAppointmentRef);
-                    if (docSnap.exists()) {
-                        const data = docSnap.data().appointments[index]
-                        setAppointment({
-                            name:data.name ? data.name : '',
-                            email:data.name ? data.email : '',
-                            mobileno:data.mobileno ? data.mobileno : '',
-                            address:data.address ? data.address : '',
-                            date:data.date ? data.date : '',
-                            time:data.time ? data.time : '',
-                            status:'Panding'
-                        })
-                    } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                }
-                }catch(e){
-                    console.log(e.message)
-                }
 
-            }
-            updateAppointment()
-        }
-    }, [index,id])
     const sendAppointment = async(e)=>{
         e.preventDefault();
-        const updateHospital = doc(db, "Hospital", id);
-            try{
-                setsendappointment(true)
-                    const docSnap = await getDoc(updateHospital);
-                    if (docSnap.exists()) {
-                        const data = docSnap.data().appointments
-                        try {
-                            await updateDoc(updateHospital, {
-                                appointments:[
-                                        ...data,
-                                        appointment,
-                                ]
-                              });
-                              alert('Thank You ! For Online Appoimtment, Your Online Hospital Appointment Booked Sussessfuly !')   
-                              setAppointment({
-                                name:'',
-                                email:'',
-                                mobileno:'',
-                                address:'',
-                                date:'',
-                                time:'',
-                                status:'Panding'
-                              })
-                        }catch(e){
-                             console.log(e.message)
-                        }
-                    } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                }
-                setsendappointment(false)
-            }catch(e){
+        setsendappointment(true)
+        if(appointId){
+            try {
+                await updateDoc(doc(db, "Appointments", appointId), {
+                   ...appointment,
+               });
+               setsendappointment(false)
+               alert('Appointment Detailes Modifide Successfuly !')   
+                setAppointment({
+                name:'',
+                email:'',
+                mobileno:'',
+                address:'',
+                date:'',
+                time:'',
+                status:'Panding'
+                })
+             } catch (e) {
                 console.log(e.message)
                 setsendappointment(false)
-            }
+             }
+        }else{
+            try {
+                await addDoc(collection(db, "Appointments"), {
+                   ...appointment,
+                   hospitalId: id,
+                   createdAt:serverTimestamp(),
+               });
+               setsendappointment(false)
+               alert('Thank You ! For Online Appoimtment, Your Online Hospital Appointment Booked Sussessfuly !')   
+                setAppointment({
+                name:'',
+                email:'',
+                mobileno:'',
+                address:'',
+                date:'',
+                time:'',
+                status:'Panding'
+                })
+             } catch (e) {
+                console.log(e.message)
+                setsendappointment(false)
+             }
+        }
+       
         setModalShow(false);
     }
     return (

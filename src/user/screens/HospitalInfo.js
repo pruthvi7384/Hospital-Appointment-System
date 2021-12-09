@@ -59,7 +59,7 @@ function HospitalInfo() {
             </Row>
             <Row className="hospital_info">
                 <Col xl={6}>
-                    <img className="hospital_image" src={!specificHospital.dataHospital.image === '' ? `${specificHospital.dataHospital.image}` : `https://intersectiq.com/assets/images/blogs/6/cover.jpg`} alt="" />
+                    <img className="hospital_image" src={specificHospital.dataHospital.image !== '' ? `${specificHospital.dataHospital.image}` : `https://intersectiq.com/assets/images/blogs/6/cover.jpg`} alt="" />
                 </Col>
                 <Col xl={6}>
                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{specificHospital.dataHospital.description}</p>
@@ -134,7 +134,8 @@ function HospitalInfo() {
                 <h4><span>{specificHospital.dataHospital.name}</span> Hospital <span> Specialities </span></h4>
                 <Col xl={8} className="mt-2">
                     {
-                        specificHospital.dataHospital.specialities !== '' ?
+                        specificHospital.dataHospital.specialities === [0] ?
+                        
                         specificHospital.dataHospital.specialities.map((specialitie,index) => (
                             <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {specialitie}</p>
                         ))
@@ -147,7 +148,7 @@ function HospitalInfo() {
                 <h4><span>{specificHospital.dataHospital.name}</span> Hospital <span> Facilities </span></h4>
                 <Col xl={8} className="mt-2">
                     {
-                        specificHospital.dataHospital.facilities !== '' ?
+                        specificHospital.dataHospital.facilities === [0] ?
                         specificHospital.dataHospital.facilities.map((facility,index)=> (
                             <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {facility}</p>
                         ))
@@ -160,7 +161,7 @@ function HospitalInfo() {
                 <h4><span>{specificHospital.dataHospital.name}</span> Hospital <span> Services </span></h4>
                 <Col xl={8} className="mt-2">
                     {
-                        specificHospital.dataHospital.srvices !== '' ?
+                        specificHospital.dataHospital.srvices === [0] ?
                         specificHospital.dataHospital.services.map((service,index)=> (
                             <p key={index}><span><i className="fas fa-hand-point-right"></i></span> {service}</p>
                         ))
