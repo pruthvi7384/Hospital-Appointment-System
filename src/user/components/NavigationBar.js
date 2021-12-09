@@ -26,7 +26,7 @@ function NavigationBar({path}) {
       { to: '/signup', text: 'SignUp' },
       { to: '/login', text: 'LogIn' },
     ]
-     // =================Hospital Logout Here===========
+     // =================User Logout Here===========
       const logout = ()=>{
         signOut(auth).then(() => {
           alert('SingOut Successfuly')
