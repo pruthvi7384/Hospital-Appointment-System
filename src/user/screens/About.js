@@ -7,23 +7,13 @@ function About() {
     const TEAM = [
         { 
             image:'',
-            name:"Kunal Patil",
-            branch:"Computer Science & Engineering IS1",
-            class:"TY CSE",
-            section:"A",
-            rollno:"2183117",
-            github:"",
-            linkdin:"",
-        },
-        { 
-            image:'',
-            name:"Akash Dhormale",
-            branch:"Computer Science & Engineering IS1",
-            class:"TY CSE",
-            section:"A",
-            rollno:"2183275",
-            github:"",
-            linkdin:"",
+            name:"Pruthviraj Rajput",
+            branch:"Computer Science & Engineering",
+            class:"BE",
+            section:"B",
+            rollno:"37",
+            github:"https://github.com/pruthvi7384",
+            linkdin:"https://www.linkedin.com/in/pruthviraj-rajput-131ba61b4/",
         }
     ]
    
