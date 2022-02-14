@@ -49,7 +49,7 @@ function Footer() {
             <Row className="Developer">
                 <Col xl={12}>
                         <p>&copy; 2021-22 ~ E HOSPITALS APPOINTMENT, All Rights Reserved.</p>
-                        <Link to="/about">Develped By ~ <span> <i className="fab fa-github"></i> Kunal & Akash .</span></Link>
+                        <Link to="/about">Develped By ~ <span> <i className="fab fa-github"></i> Pruthviraj Rajput .</span></Link>
                 </Col>
             </Row>
         </Container>
